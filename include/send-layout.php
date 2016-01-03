@@ -11,7 +11,7 @@ echo'
               <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label">Temat Wiadomości</label>
                 <div class="col-sm-10">
-                  <input type="input" class="form-control" mame="Subject" placeholder="Wpisz temat wiadomości">
+                  <input type="input" class="form-control" name="Subject" placeholder="Wpisz temat wiadomości">
                 </div>
               </div>
 <!--              
@@ -41,12 +41,11 @@ echo'
                     <div class="input-group">
                       	<span class="input-group-btn">
                         	<span class="btn btn-gray btn-file ">
-                           	Browse <input type="file" name="fileInput" accept="application/vnd.ms-excel">
+                           	Browse <input type="file" name="fileInput">
                        	</span>                        
                       </span>
                       <input type="text" class="form-control" disabled id="upload-label" value="" placeholder="Wybierz plik..." />
-<!--                      <i class="glyphicon glyphicon-ok-circle form-control-feedback"></i>
-                      <i class="glyphicon glyphicon-exclamation-sign form-control-feedback"></i>-->
+
                     </div><!-- /input-group -->
                 </div>
               </div>
@@ -54,7 +53,7 @@ echo'
              
               <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                  <button type="button" class="btn btn-md btn-gray btn-block container">Wyślij</button>
+                  <button name="send" value="1" type="button" class="btn btn-md btn-gray btn-block container">Wyślij</button>
                 </div>
               </div>
               
@@ -77,7 +76,7 @@ echo'
 			  </div>
             </div>
 			
-			<script src="js/ajax-form.js"></script>
+		
                 
 ';
 ?>

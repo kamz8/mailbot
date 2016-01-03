@@ -6,22 +6,34 @@
     });
 	
 	    $(document).ready( function() {
+			var inputSelector = '#mailform div:eq(1)';
+			
         $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
             console.log(numFiles);
             console.log(label);
+			
 			$('#upload-label').attr('value', label);
         	var res = label.split('.');
 			console.log(res[1]);
 			$('.glyphicon-ok-circle').hide()
 			$('.glyphicon-exclamation-sign').hide();
+				$(inputSelector).removeClass('has-success has-error');
+				$(".input-group i").remove();	
 			if(res[1]=='csv') 
 			{
-			$('.glyphicon-ok-circle').show();
+			$(inputSelector).removeClass('has-error');	
+			$(inputSelector).toggleClass('has-success');	
+			$(".input-group").append(' <i class="glyphicon glyphicon-ok form-control-feedback"></i>');
+			
 			console.log('ok');
 			}
 			else 
 			{
+			$(inputSelector).removeClass('has-success');
 			$('.glyphicon-exclamation-sign').show();
+			$(inputSelector).toggleClass('has-error');
+			$(".input-group").append(' <i class="glyphicon glyphicon-remove form-control-feedback"></i>');
+			
 			
 			}
     });

@@ -10,7 +10,7 @@ echo'
             <form class="form-horizontal" role="form" id="user" name="account" method="post" action="./ustawienia">
               
               <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Nazwa urzytkownika:</label>
+                <label for="inputEmail3" class="col-sm-2 control-label">Nazwa urzytkownika* :</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" name="user" placeholder="Wpisz nową nazwę urzytkownika">
                 </div>
@@ -18,7 +18,7 @@ echo'
               
                             
               <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Hasło:</label>
+                <label for="inputEmail3" class="col-sm-2 control-label">Hasło* :</label>
                 <div class="col-sm-10">
                   <input type="password" class="form-control" name="pass" placeholder="Wpisz nowe hasło">
                 </div>
@@ -61,7 +61,7 @@ echo'
                     </div>
                     <div class="panel-body">
                     
-            <form class="form-horizontal" role="form" id="bot-settings" name="server_settings" action="./ustawienia" method="post">
+            <form class="form-horizontal" role="form" id="server" name="server_settings" action="./ustawienia" method="post">
               
 
               
@@ -69,14 +69,22 @@ echo'
               <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label">Aders serwera pocztowego:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" name="host" placeholder="Wpisz aders serwera pocztowego">
+                  <input type="text" class="form-control" name="host" placeholder="Wpisz aders serwera smtp">
                 </div>
               </div>
-
+			  
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Szyfrowanie SSL:</label>
+                <div class="col-sm-10">
+				  <label class="radio-inline"><input type="radio" value="1" name="ssl">tak</label>
+				  <label class="radio-inline"><input type="radio" value="0" name="ssl"ch>nie</label>
+                </div>
+              </div>
+			  
               <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label">Port:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" name="port" placeholder="Wpisz port serwera pocztowego">
+                  <input type="text" class="form-control" name="port" placeholder="Wpisz port serwera smtp">
                 </div>
               </div>
               

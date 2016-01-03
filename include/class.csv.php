@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 class Csv
 {
 	private $dataArray = array();

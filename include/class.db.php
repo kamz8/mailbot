@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 //łączenie się z bazą mysql
 
 require('../class.ini.php');
