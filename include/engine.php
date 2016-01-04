@@ -1,7 +1,7 @@
-<?php
+﻿<?php
  
 require("RewriteUrl.php");
-require_once('./include/login.php');
+
 /*class app
 {
 
@@ -36,10 +36,9 @@ class engine
 		$urli -> getRootDir('mailbot/');
 		
 		$page1 = $urli -> getTag('page1');
-		$page2 = $urli -> getTag('page2');	
+		//$page2 = $urli -> getTag('page2');	
 	  	$this->getTitle($page1);
-		
-			//echo $page1.' '.;
+			
 		switch($page1)
 		{
 			case 'Home' && '': 
@@ -86,7 +85,7 @@ class engine
                     <div class=\"col-lg-12\">
                         <div id=\"alert-status\" class=\"alert alert-success alert-dismissable\" style=\"display:none\">
                             <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button>
-                            <i class=\"fa fa-check-circle-o fa-lg\"></i>  <strong>Zadanie zakończono z sukcesem.</strong> Zmieniono ustawienia. 
+                            <i class=\"fa fa-check-circle-o fa-lg\"></i>  <strong>Zadanie zakończono z sukcesem.</strong> Importowano konakty z pliku do bazy danych. 
                         </div>
                     </div>
                 </div>
@@ -104,12 +103,7 @@ class engine
 			  {
 				  $settings->updateUser();
 			  }
-			  if(isset($_POST['send']))
-			  {
-				  $settings->updateServer();
-			  }		
-			  
-			  echo'<script src="./js/ajax.setings.js"></script>';		
+			
 			break;
 			
 			case 'baza-kontaktow': 
@@ -157,8 +151,8 @@ class engine
                        	</span>                        
                       </span>
                       <input type="text" class="form-control" disabled id="upload-label" value="" placeholder="Wybierz plik..." />
-					  
-
+                      <i class="glyphicon glyphicon-ok-circle form-control-feedback" style="display:none"></i>
+                      <i class="glyphicon glyphicon-exclamation-sign form-control-feedback" style="display:none"></i>
                     </div><!-- /input-group -->
                   </div><!-- /.col-lg-6 -->  
               </div>
@@ -221,17 +215,9 @@ class engine
 				
 				';  
 				require('./include/send-layout.php');
-				echo'<script src="./js/ajax.send.js"></script>';
 				
-				if(isset($_POST['send']) && $_POST['send']=1)
-				{
-					echo'odebrano';	
-				}
 			break;
 			
-/*			case 'logout': 
-				logout();
-			break;*/	
 			default:
 			echo' <!-- Page Heading -->
                 <div class="row">

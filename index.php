@@ -12,15 +12,7 @@ $title =$main->title();
 				{
 					echo'ok';
 				}*/
-
-$page = '';	
-if(isset($_GET['page1']))  
-{
-$page = $_GET['page1'];
-
-if($page == 'logout') logout();
-
-}
+/*if (isset($_GET['app'])  ) logout();	*/			
 ?>
 <!doctype html>
 <html>
@@ -66,6 +58,12 @@ if($page == 'logout') logout();
 
 login();
 
+if (isset($_GET['app'])) 
+{
+	echo '*brack point';
+	logout();
+
+}
 
 if (isset($_SESSION['admin']) && $_SESSION['admin']=='ok')
 {		echo'
@@ -87,23 +85,23 @@ if (isset($_SESSION['admin']) && $_SESSION['admin']=='ok')
             <ul class="nav navbar-right top-nav">
              
                         <li>
-                            <a href="logout"><i class="fa fa-fw fa-power-off"></i> <span style="font-weight:bold">Wyloguj</span></a>
+                            <a href="?app=logout"><i class="fa fa-fw fa-power-off"></i> <span style="font-weight:bold">Wyloguj</span></a>
                         </li>
                 
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li '; if($page == '') echo ' class="active" '; echo'>
+                    <li  class="active">
                         <a href="./"><i class="fa fa-fw fa-dashboard"></i> Panel Główny</a>
                     </li>
-                    <li '; if($page == "ustawienia") echo 'class="active"'; echo'>
+                    <li>
                         <a href="ustawienia"><i class="fa fa-fw fa-cog"></i> Ustawienia</a>
                     </li>
-                    <li '; if($page == "baza-kontaktow") echo ' class="active"'; echo'>
+                    <li>
                         <a href="baza-kontaktow"><i class="fa fa-fw fa fa-database"></i> Baza Kontaktów</a>
                     </li>
-                    <li '; if($page == 'rozpocznij-kampanie') echo 'class="active"'; echo'>
+                    <li>
                         <a href="rozpocznij-kampanie"><i class="fa fa-fw fa-envelope-o"></i> Rozpocznij Kampanię</a>
                     </li>
    
@@ -115,7 +113,6 @@ if (isset($_SESSION['admin']) && $_SESSION['admin']=='ok')
         <div id="page-wrapper">
 
             <div class="container-fluid">';
-			
 				$main->browser();
 				
             echo'</div>
@@ -128,8 +125,8 @@ if (isset($_SESSION['admin']) && $_SESSION['admin']=='ok')
     <!-- /#wrapper -->
 
 	';		
-
-
+			
+/*if (isset($_GET['app'])  ) if($_GET['app'] == 'logout') logout();	*/
 }
 
 

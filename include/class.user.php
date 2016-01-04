@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class user
 {
 	private $_login;

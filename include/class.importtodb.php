@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //class.ImportToDb
 
 require_once('./include/class.csv.php');

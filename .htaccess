@@ -3,7 +3,6 @@ DirectoryIndex index.php
 RewriteBase /mailbot/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^index.php$ doc.php [L]
-
+RewriteRule ^([a-zA-Z-_0-9]+)/([a-zA-Z-_0-9]+)/([a-zA-Z-_0-9]+)/?$ index.php?page1=$1&page2=$2&page3=$3 [L]
+RewriteRule ^([a-zA-Z-_0-9]+)/([a-zA-Z-_0-9]+)/?$ index.php?page1=$1&page2=$2 [L]
 RewriteRule ^([a-zA-Z-_0-9]+)/?$ index.php?page1=$1 [L]
-

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /* klasa odczytu i zapisu plików ini */
 
 class ini_file
@@ -53,7 +53,7 @@ class ini_file
 	/*funkcje edycji plików */
 	public function updateValue($section, $key, $newValue)		//edyryuje wartość dla podanej sekcji i klucza
 	{
-		//$this->load();
+		$this->load();
 		if(isset($this->_iniStruct[$section][$key]) == true) $this->_iniStruct[$section][$key] = $newValue;
 		else return false;
 	}

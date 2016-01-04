@@ -7,14 +7,19 @@ global $is_error;
 function logout ()
 {
 	
-
+if(isset($_GET['app']))
+{
+	$action = $_GET['app'];
+	if ($action == 'logout')
+	{
 	$_SESSION['admin']='';
 
 	session_destroy();
 	
 	header('Refresh: 0 url= ./ ');
-
-
+	
+	}
+}
 
 }
 function login ()
