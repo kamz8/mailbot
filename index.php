@@ -8,11 +8,31 @@ require_once('./include/login.php');
 $main = new engine;
 $main->_mainName = "MailerBot";
 $title =$main->title();
-/*				if(isset($_GET['app']) == 'stat_add&tocken=3sd456gds4567')
+				if(isset($_GET['app']))
 				{
-					echo'ok';
-				}*/
-/*if (isset($_GET['app'])  ) logout();	*/			
+					if($_GET['app'] == 'received')
+					{
+						$content='';
+						
+						echo'ok';
+						
+						$file = fopen('./cache.txt','a');
+						$content.=date('d-m-y H:i:s ')." qwery app={$_GET['app']}";
+						if(isset($_GET['token'])) $content.= " ".$_GET['token'];
+						$content.="\r\n";
+						fwrite($file,$content);
+					}
+						
+				}
+
+$page = '';	
+if(isset($_GET['page1']))  
+{
+$page = $_GET['page1'];
+
+if($page == 'logout') logout();
+
+}
 ?>
 <!doctype html>
 <html>
@@ -58,12 +78,6 @@ $title =$main->title();
 
 login();
 
-if (isset($_GET['app'])) 
-{
-	echo '*brack point';
-	logout();
-
-}
 
 if (isset($_SESSION['admin']) && $_SESSION['admin']=='ok')
 {		echo'
@@ -85,23 +99,23 @@ if (isset($_SESSION['admin']) && $_SESSION['admin']=='ok')
             <ul class="nav navbar-right top-nav">
              
                         <li>
-                            <a href="?app=logout"><i class="fa fa-fw fa-power-off"></i> <span style="font-weight:bold">Wyloguj</span></a>
+                            <a href="logout"><i class="fa fa-fw fa-power-off"></i> <span style="font-weight:bold">Wyloguj</span></a>
                         </li>
                 
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li  class="active">
+                    <li '; if($page == '') echo ' class="active" '; echo'>
                         <a href="./"><i class="fa fa-fw fa-dashboard"></i> Panel Główny</a>
                     </li>
-                    <li>
+                    <li '; if($page == "ustawienia") echo 'class="active"'; echo'>
                         <a href="ustawienia"><i class="fa fa-fw fa-cog"></i> Ustawienia</a>
                     </li>
-                    <li>
+                    <li '; if($page == "baza-kontaktow") echo ' class="active"'; echo'>
                         <a href="baza-kontaktow"><i class="fa fa-fw fa fa-database"></i> Baza Kontaktów</a>
                     </li>
-                    <li>
+                    <li '; if($page == 'rozpocznij-kampanie') echo 'class="active"'; echo'>
                         <a href="rozpocznij-kampanie"><i class="fa fa-fw fa-envelope-o"></i> Rozpocznij Kampanię</a>
                     </li>
    
@@ -113,6 +127,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin']=='ok')
         <div id="page-wrapper">
 
             <div class="container-fluid">';
+			
 				$main->browser();
 				
             echo'</div>
@@ -125,8 +140,8 @@ if (isset($_SESSION['admin']) && $_SESSION['admin']=='ok')
     <!-- /#wrapper -->
 
 	';		
-			
-/*if (isset($_GET['app'])  ) if($_GET['app'] == 'logout') logout();	*/
+
+
 }
 
 

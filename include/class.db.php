@@ -1,61 +1,54 @@
-﻿<?php
+<?php
 //łączenie się z bazą mysql
 
-require('../class.ini.php');
-define(CONFIG, "./include/config/db_congig.ini");
+require_once("class.ini.php");
+define("CONFIG", "./include/config/db.ini");
 
-class DB
+class Db
 {
-	private $_db;
-	private $_login;
-	private $_pass;
-	private $_dir;
-	private $_charset;  
-	private $db_mysql;
+	private $mysqli;
+
 	public function __construct()
 	{
-		$config_db = new ini_file;
-		$config_db->setFileName(CONFIG);
-		$file = $config_db->loadFile();
+		$dbcfg = new ini_file;
+		$dbcfg->setFileName(CONFIG);
 		
-		$this->_db = $file['config_db']['default_db'];
-		$this->_dir=$file['config_db']['localhost'];
-		$this->_login = $file['config_db']['login'];
-		$this->_pass = $file['config_db']['passwort'];
-		$this->charset = $file['config_db']['charset'];
-		//konfiguracja
+		$dbcfg->load();
+		$server = $dbcfg->getElementValue('db-config','server');
+		$login = $dbcfg->getElementValue('db-config','login');
+		$passwort = $dbcfg->getElementValue('db-config','paswort');
+		$default_db = $dbcfg->getElementValue('db-config','db_name');
 		
-		$baza = @mysql_connect($this->_dir, $this->_login, $this->_pass);
-		if ($baza === false) die('Nie można było nawiązac połączenia'
-		.' z powodu blendu:'. mysql_error());  
-  
- 		 mysql_query('SET NAMES "'.$this->_charset.'"');
-  
- 		 $ok = @mysql_select_db($this->_db);
-		if ($ok === false) die('Nie można było nawiązac połączenia'
-		.' z powodu blendu:'. mysql_error());
+		//połączenie z bazą
+		$this->mysqli = new mysqli($server,$login,$passwort,$default_db);
+			if(mysqli_connect_errno()) 
+			{
+				echo"Nie udało się nawiązać połączenia z bazą danych, komunikat:".mysqli_connect_error();
+				exit();	
+			}
+			$this->mysqli->set_charset("utf8");
 	}
-	public function db_conect($db_name)
+	
+	public function dbConect($dbName)
 	{
-		$db = @mysql_connect($this->_dir, $this->_login, $this->_pass);
-		if ($db === false) die('Nie można było nawiązac połączenia'
-		.' z powodu blendu:'. mysql_error());  
-  
- 		 mysql_query('SET NAMES "'.$this->_charset.'"');
-  
- 		 $ok = @mysql_select_db($db_name);
+ 		 $ok = $this->mysqli->select_db($dbName);
 		if ($ok === false) die('Nie można było nawiązac połączenia'
 		.' z powodu blendu:'. mysql_error());	
 	}
 	
 	public function charset($chartype)
 	{
-		mysql_query('SET NAMES "'.$chartype);
+		$this->mysqli->query('SET NAMES "'.$chartype);
+	}
+	
+	public function getMysqli()
+	{
+		return $this->mysqli;	
 	}
 	
 	public function __destruct()
 	{
-		@mysql_close();	
+		$this->mysqli->close();	
 	}
 }
 

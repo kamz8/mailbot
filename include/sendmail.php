@@ -1,78 +1,96 @@
 ﻿<?php
 error_reporting(E_ALL);
 //ładowanie konfiguracji
-require_once('./include/class.db.php');
+require_once('class.db.php');
 
 //NASZ SKRYPT
 require_once("./phpmailer/PHPMailerAutoload.php");
 require_once('./phpmailer/class.smtp.php'); 
 require './phpmailer/class.phpmailer.php';
-require_once("./include/class.ini.php");
-
+require_once("class.ini.php");
+require_once('class.htmlparser.php');
+require_once('class.progressbar.php');
 function sendMail()
 {
-$cfg = new ini;	
+	$checkbox_value = 0;
+$cfg = new ini_file;	
 $cfg->setFileName('./include/config/account.ini');
 $cfg->load();
-$user_mail = $cfg->getElementByValue('user','email');
+$user_mail = $cfg->getElementValue('user','mail');
 
 	
+$p = new ProgressBar();
 $mail = new PHPMailer();
 $mail->IsSMTP();
+
+
 
 //$mail->SMTPDebug= 2;
 //konfiguracja serwera
 $mail->PluginDir = "phpmailer/";
 $mail->Mailer = "smtp";
-$mail->Host = $cfg->getElementByValue('server-config','Host');
-$mail->SMTPSecure = $cfg->getElementByValue('server-config','SMTPSecure');;
-$mail->Port =$cfg->getElementByValue('server-config','Port');	
+$mail->Host = $cfg->getElementValue('server-config','Host');
+$mail->SMTPSecure = $cfg->getElementValue('server-config','SMTPSecure');
+$mail->Port =$cfg->getElementValue('server-config','Port');	
 //
 $mail->SMTPKeepAlive = true;  					
 $mail->SMTPAuth = true;
-$mail->Username = $cfg->getElementByValue('server-config','Login');
-$mail->Password = $cfg->getElementByValue('server-config','Passwort');	
+$mail->Username = $cfg->getElementValue('server-config','Login');
+$mail->Password = $cfg->getElementValue('server-config','Passwort');	
 //koniec połączenia
 //baza danych
-$mydb = new DB;
+$mydb = new Db;
+ 
 $qwery="SELECT `id`, `email` FROM mail_data Where sended=".$checkbox_value;
-  $request = mysql_query($qwery);
+  $request = $mydb->getMysqli()->query($qwery);
   if($request === false) die('Nie można było odebrać danych do bazy'
-  .' z powodu blendu:'. mysql_error()); 
- if(mysql_num_rows()==0)
+  .' z powodu blendu:'. $mydb->getMysqli()->error); 
+ if($request->num_rows==0)
  {
 	 echo'Brak danych w bazie';
 	 exit(1);
  }
-  while($row = mysql_fetch_assoc($request))
-  {
+ $i=0;
+ $size = $request->num_rows;
+$p->render(); 
+  while($row = $request->fetch_assoc())
+  {		
 		$id = $row['id'];
 		$address = $row['email'];
+		$token = md5(time());
+		$mail->SetLanguage("pl", "phpmailer/language/");				
+		$mail->CharSet = "UTF-8";	
+		$mail->ContentType = "text/html";					
+		$mail->isHTML(true);
+		$html = new HtmlParser("./mailform/form1 - Kopia.html");		
+		$mail->From = $user_mail;	
+		$mail->FromName = $cfg->getElementValue('user','FromName');
+		$mail->Subject = "Tytuł wiadomości";
 		
-$mail->SetLanguage("pl", "phpmailer/language/");				
-$mail->CharSet = "UTF-8";	
-$mail->ContentType = "text/html";					
-$mail->isHTML(true);
+		$mail->msgHTML($html->getHtml());
 		
-$mail->From = user_mail;	
-$mail->FromName = "Kamil z webbooster";
-$mail->Subject = "Tytuł wiadomości";
-$mail->Body = '
-To jest nowa testowa treść, z prawidłowo interpretowanymi polskimi znaczkami, a to jest <b>pogrubione</b>, a to jest <a href="http://www.example.com">link</a><br/>
-<div>trolololo</div>
-';
+		$mail->AddAddress($address);
+		try{
+			if($mail->Send())
+			{
+				
+				$p->setProgress($i*100/$size);
+			}
+			else throw new Exception("E-mail nie mógł zostać wysłany, przyczyna : {$mail->ErrorInfo}");
+		}
+		catch(Exeption $e) 
+		{
+			var_dump($e);	
+			exit();		
+		}
+		
+	$i++;	  
+}
+	echo'wysłano mail: ';	
+		
+$p->setProgress(100);
 
-$mail->AddAddress($address);
-
-if($mail->Send())
-	   return true;
-else
-     throw new Exception('"E-mail nie mógł zostać wysłany, przyczyna :".$mail->ErrorInfo', 5);
-		  
-  }
-
-//
-
+//echo $html->getHtml();
 					
 $mail->SmtpClose();	//zamykamy połączeie									
 }
