@@ -8,7 +8,7 @@ class UploadFile
 	private $size;
 	private $error;
 	private 
-	static $AllowedExt = array("csv","xml","application/vnd.ms-excel");
+	private $AllowedExt = array("csv","xml","application/vnd.ms-excel");
 	static $maxSize = 5120;	
 	public 
 	
@@ -31,7 +31,7 @@ class UploadFile
 		$this->errorAlert();
 		
 		$fileExt=pathinfo(strtolower($this->name), PATHINFO_EXTENSION);
-		if (!in_array($this->mime, UploadFile::$AllowedExt, true)) {
+		if (!in_array($this->mime, $this->$AllowedExt, true)) {
 			
     		exit("Niedozwolone rozszerzenie pliku.");
 		}
@@ -87,6 +87,11 @@ class UploadFile
 		{
 			echo $e->getMessage();
 		}
+	}
+	
+	public function setAllowedExt($ext)
+	{
+		$this->AllowedExt[] = $ext;
 	}
 	
 }
